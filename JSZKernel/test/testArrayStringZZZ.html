@@ -1,0 +1,507 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>UI fuer die ZApi.Basic.Datatype.Array.String.js</title><meta http-equiv='expires' content='0'>
+<script language="javascript" type="text/javascript" src="../libkernel/_SewagJavascriptLibraryPage.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.Array.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ElementUI.js"></script>
+<script language="JavaScript" type="text/javascript">
+<!-- Vor nicht Javascript fähigen Browsern verbergen 
+function getTextForAliasEEG(){
+	alert("TEST Started");
+	
+	var sAlias = getFieldCheckedByGroupname("eegType");
+	alert("getFieldCheckedByGroupname... = " + sAlias);
+	
+	//Hole den Wert der Liste....
+	var sText = getValueFromTextlistByAlias("curSelfPowerList", sAlias, ";");
+	alert("getValueFromTextlistByAlias...=" + sText);
+	 
+	alert("Test Ended");
+}
+function getValueFromTextlistByAlias(sFieldname, sAlias, sEntrySeparator){
+    var sReturn = "";
+    var sListSeparator="|";
+    main:{
+		var sValue = getFieldValue(sFieldname);
+		//alert(sValue);
+	
+		var saValue = sValue.split(";");
+		for(var i = 0; i<saValue.length;i++){
+			var stemp = saValue[i];
+			alert(stemp);
+			var iIndex = stemp.lastIndexOf(sListSeparator);
+			//alert("Index: " + iIndex);
+			if(iIndex>=-1){
+				var sproof = getStrRight(stemp, stemp.length-sListSeparator.length - iIndex);
+				//alert("sproof1=" + sproof);
+				if(sproof==sAlias){
+					sReturn = getStrLeft(stemp, stemp.length-sAlias.length-sListSeparator.length);
+					break main;
+				}
+			}else{
+				//TODO: Testen dieses Falls.....
+				var sproof = getStrRightBack(stemp, sAlias.length);
+				alert("getValueFromTextlistByAlias(): sproof2=" + sproof);
+				if(sproof==sAlias){
+					sReturn = getStrLeft(stemp, stemp.length-sAlias.length);
+					break main;
+				}
+			}
+		}					
+	}//end main:
+	return sReturn;
+}
+
+
+/*FLi 2010-04-09
+*  Falls Checkboxen mit 01 ... nn erweitert wurden, bekommt man über den gleichen Namensbestandteil ein Objektarray
+*/
+function getObjectPtrByGroupname(sCheckboxGroupName){
+	var objaReturn=new Array();
+	main:{
+		if(sCheckboxGroupName==null) break main;
+		if(sCheckboxGroupName=="") break main;
+
+		var sBasicName = sCheckboxGroupName; //TODO: Lösung dafür, wenn z.B. das Parentobjekt (also eine Checkbox selbst) übergeben wird.
+		var iCount = 9;
+		for(iCount;iCount>=1; iCount--){ //TODO: mehrerer Ziffern, ggf. mit 0 aufgefüllt verarbeiten
+			var sName = sBasicName + "0" + iCount;
+			//alert("getObjectPtrByGroupname(): sName= " + sName); 
+			
+			var objFld = getObjectPtr(window.document.forms[0],sName);
+			if (typeof(objFld) == 'object'){
+				//alert("getObjectPtrByGroupname(): sName= " + sName); 
+				if(isArrayByLength(objFld)){	
+					//alert("getObjectPtrByGroupname(): Ist als Array gefunden worden ... sName= " + sName);
+					objaReturn = objaReturn.concat(objFld);					
+				}else{
+					//alert("getObjectPtrByGroupname(): Ist nur als einzelnes Feld gefunden und kein Array ... sName= " + sName);
+					objaReturn = objaReturn.concat(objFld);
+				}
+			}else{
+				//alert("getObjectPtrByGroupname(): Feld nicht gefunden ... sName= " + sName);
+			}
+		}
+	
+	}//end main:
+	return objaReturn;
+}
+
+/* FLi 2010-04-12
+wichtig für die Validerung auf Leerwert UND für das showContent(...). 
+Letzteres basiert jetzt auf der "äußeren" Checkbox...*/
+function getFieldCheckedByGroupname(sCheckboxGroupName){
+	//alert("getFieldCheckedStringByGroupname: Mit Checkboxgruppe=" + sCheckboxGroupName);
+	var sReturn = "";
+	main:{
+		var objaFld  = getObjectPtrByGroupname(sCheckboxGroupName); //getObjectPtr(window.document.forms[0],sCheckboxGroupName+"01");
+		if (typeof(objaFld) != 'object') break main;
+		//alert("getFieldCheckedStringByGroupname: Länge " + objaFld.length);
+
+			
+	if(isArrayByLength(objaFld)){
+		//alert("getFieldCheckedStringByGroupname: Array vorhanden.");
+		var saReturn = new Array();			
+		for (var i = 0; i < objaFld.length; i++) {
+			var sValue = objaFld[i].value;
+			var bChecked = objaFld[i].checked;
+		     //alert("getFieldCheckedStringByGroupname: " + i + ". Wert=" + sValue + ", " + bChecked);
+			if(sValue!="" && bChecked==true){
+				saReturn = saReturn.concat(sValue);
+			}
+		}
+		if(saReturn.length>=2){
+			sReturn = saReturn.concat("~");
+		}else if(saReturn.length==1){
+			sReturn = saReturn[0];
+		}else{
+			sReturn = "";
+		}
+	}else{
+		var sValue = objaFld.value;
+		var bChecked = objaFld.checked;
+		//alert("getFieldCheckedStringByGroupname: Wert=" + sValue + ", " + bChecked);
+		if(sValue!="" && bChecked==true){
+			sReturn = objaFld.value;			
+		}
+	}
+	}//end main
+	return sReturn;
+}
+
+/*FLi 2010-04-13 Komfortfunktion für die Validierung
+   Der optionale 2. Parameter erlaubt die Übergabe eines Wertes, nach dem geprüft werden soll.*/
+function isFieldCheckedByGroupname(sCheckboxGroupName){
+	//alert("isFieldCheckedStringByGroupname: mit Checkboxgruppe=" + sCheckboxGroupName);
+	var bReturn = false;
+	main:{
+		
+		var sValuesChecked = getFieldCheckedByGroupname(sCheckboxGroupName);
+		//alert("isFieldCheckedStringByGroupname: sValuesChecked=" + sValuesChecked + " (als Ergebnis von 'getFieldCheckedByGroupname(...)' )");
+		if(sValuesChecked=="") break main;
+		
+		
+		//Wenn ein 2. Parameter übergeben wurde, dann ist das der Wert, auf den überprüft werden soll.
+		//alert("Es wurden " + arguments.length + " Parameter / Argumente an die Funktion übergeben.");
+		if(arguments.length>=2){
+			var sValue2proof = arguments[1];
+			//alert("isFieldCheckedStringByGroupname: sValue2proof=" + sValue2proof + " (als übergebenes Argument)");
+			if(sValue2proof==""){
+				bReturn = true;
+ 				break main;
+ 			}
+			var saValueChecked = sValuesChecked.split('~');
+			if(isArrayByLength(saValueChecked)){
+				//alert("isFieldCheckedStringByGroupname: Mehrfachwert gefunden mit ~ getrennt.");
+				for(var i = 0; i<saValueChecked.length;i++){
+					var sValueTemp = saValueChecked[i];
+					//alert("isFieldCheckedStringByGroupname: " + i + ". Indexposition=" + sValueTemp);
+					if(sValueTemp==sValue2proof){
+						bReturn = true; 
+						break main;
+					}
+				}
+			}else{
+				//alert("isFieldCheckedStringByGroupname: Nur Einzelwert gefunden bei Suche nach ~: " + saValueChecked);
+				if(saValueChecked==sValue2proof){
+						bReturn = true;
+						break main;
+				}
+			}	
+		}	//end if (arguments.length......
+	}//end main
+	return bReturn;
+}
+
+//################################################################################
+
+function onClick_subType(objParent){
+var bReturn = false;
+     main:{
+		bReturn=changeOtherCheckBoxValuesByGroup(objParent, false);
+		if(bReturn==false) break main;
+
+		//Wenn ein 2. Parameter übergeben wurde, dann ist das der Sektor, der alleine gewählt sein darf.
+		//alert("Es wurden " + arguments.length + " Parameter / Argumente an die Funktion übergeben.");
+		if(arguments.length>=2){
+			var sSector = arguments[1];
+			bReturn = singleSectorOnly(objParent, sSector);
+		}else{
+			//Falls zuvor mal ein Punkt gewählt wurde, der nur einen Sektor haben soll, muss auf jeden Fall wieder die Sektorenliste freigeschaltet werden.
+			bReturn = allSector(objParent);	    
+		}
+	}
+	return bReturn;
+}
+
+/*Stelle nur eine Sparte zur Verfügung
+*/
+function singleSectorOnly(objParent, sSector){
+	//alert("singleSectorOnly fuer " + objParent.name + ", Sektor: " + sSector);
+	main:{
+		if (objParent==null) break main;
+		if (sSector==null) break main;
+		if(sSector=="") break main;
+		
+		var sSubType = objParent.name.substring(0,3);
+		//alert("singleSectorOnly: SubType=" + sSubType);
+		
+		var objFldSector = getObjectPtr(window.document.forms[0],'havSector_' + sSubType.toUpperCase());
+		if (typeof(objFldSector) != 'object') return;
+	if(isArrayByLength(objFldSector)){
+		//alert("singleSectorOnly: Sektorencheckbox ist Array");		
+		for (var j = 0; j < objFldSector.length; j++) {
+		    //alert("singleSectorOnly: " + j + ". Indexwert=" + objFldSector[j].value);	
+			if(objFldSector[j].value == sSector){
+			//Merke: Weil es Einzelwerte sind, soll man sie auch nicht "Rausnehmen" können. Also auch deaktivieren, aber "angekreuzt".
+			objFldSector[j].disabled = true;
+			objFldSector[j].readonly = true;
+			objFldSector[j].checked = true;
+			}else{
+			objFldSector[j].disabled = true;
+			objFldSector[j].readonly = true;
+			objFldSector[j].checked = false;
+			}
+		}
+	}else{
+		//alert("singleSectorOnly: Sektorencheckbox ist Einzelwert=" + objFldSector.value);		
+	     if(objFldSector.value==sSector){
+	     //Merke: Weil es Einzelwerte sind, soll man sie auch nicht "Rausnehmen" können. Also auch deaktiviere, aber "angekreuzt".
+		objFldSector.disabled = true;
+		objFldSector.readonly = true;		
+		objFldSector.checked = true;			
+		}else{
+		objFldSector.disabled = true;
+		objFldSector.readonly = true;		
+		objFldSector.checked = false;			
+		}
+	}
+	}//end main:
+}
+
+function allSector(objParent){
+	//alert("allSector fuer " + objParent.name);
+	main:{
+		if (objParent==null) break main;
+			
+		var sSubType = objParent.name.substring(0,3);
+		//alert("singleSectorOnly: SubType=" + sSubType);
+		
+		var objFldSector = getObjectPtr(window.document.forms[0],'havSector_' + sSubType.toUpperCase());
+		if (typeof(objFldSector) != 'object') return;
+	if(isArrayByLength(objFldSector)){
+		//alert("singleSectorOnly: Sektorencheckbox ist Array");		
+		for (var j = 0; j < objFldSector.length; j++) {
+		    //alert("allSector: " + j + ". Indexwert=" + objFldSector[j].value);				
+			objFldSector[j].disabled = false;
+			objFldSector[j].readonly = false;
+			//der Wert bleibe erhalten objFldSector[j].checked = false;		
+		}
+	}else{
+		//alert("allSector: Sektorencheckbox ist Einzelwert=" + objFldSector.value);			   
+		objFldSector.disabled = false;
+		objFldSector.readonly = false;		
+		//der Wert bleibe erhalten: objFldSector.checked = false;			
+	}
+	}//end main:
+}
+
+
+/*FLi 2010-04-09
+*  Falls Checkboxen mit 01 ... nn erweitert wurden, bekommt man über den gleichen Namensbestandteil ein Objektarray
+*/
+function getObjectPtrByGroupname(sCheckboxGroupName){
+	var objaReturn=new Array();
+	main:{
+		if(sCheckboxGroupName==null) break main;
+		if(sCheckboxGroupName=="") break main;
+
+		var sBasicName = sCheckboxGroupName; //TODO: Lösung dafür, wenn z.B. das Parentobjekt (also eine Checkbox selbst) übergeben wird.
+		var iCount = 9;
+		for(iCount;iCount>=1; iCount--){ //TODO: mehrerer Ziffern, ggf. mit 0 aufgefüllt verarbeiten
+			var sName = sBasicName + "0" + iCount;
+			//alert("getObjectPtrByGroupname(): sName= " + sName); 
+			
+			var objFld = getObjectPtr(window.document.forms[0],sName);
+			if (typeof(objFld) == 'object'){
+				//alert("getObjectPtrByGroupname(): sName= " + sName); 
+				if(isArrayByLength(objFld)){	
+					//alert("getObjectPtrByGroupname(): Ist als Array gefunden worden ... sName= " + sName);
+					objaReturn = objaReturn.concat(objFld);					
+				}else{
+					//alert("getObjectPtrByGroupname(): Ist nur als einzelnes Feld gefunden und kein Array ... sName= " + sName);
+					objaReturn = objaReturn.concat(objFld);
+				}
+			}else{
+				//alert("getObjectPtrByGroupname(): Feld nicht gefunden ... sName= " + sName);
+			}
+		}
+	
+	}//end main:
+	return objaReturn;
+}
+Ende des Verbergens vor nicht javascript fähigen Browsern --></script>
+</head>
+<body>
+
+
+<form>
+<!-- in Notes als TEXT, Editierbar, mit dem Semikolon als Trennzeichen -->
+<DIV ID="hiddenList" STYLE="visibility:hidden;display:none">
+<input name="curSelfPowerList" value="Photovoltaik|photo; Windenergie|wind; Wasserkraft|water; Kraft-Wärme-Kopplung (z.B. BHKW)|block; Brennstoffzelle|cell; Strom aus Deponiegas|deponie; Strom aus Klärgas|clear; Strom aus Biomasse|bio; Strom aus Geothermie|geo" id="curSelfPowerList">
+</DIV>
+
+<DIV ID="CNT_F00" ><!-- NEW ORDER  -->
+<fieldset style="border-color:#FF0000">
+<legend>
+<input type="checkbox" name="formTypeWeb01" class="cfld" value="hav" onClick="onClick_formType(this)" >Netzanschluss
+</legend>
+<div id="hav_F00" style="padding-left:0px;color:silver">
+<div id="havType" class="colleft">
+<fieldset>
+<legend>Anschlussart</legend>
+
+<input name="%%Surrogate_havConnectionType" type="hidden" value="1">
+<input type="radio" name="havConnectionType" value="new" id="havConnectionTypeText" class="cfld" disabled="disabled">Neuanschluss<br>
+
+<input type="radio" name="havConnectionType" value="chg" id="havConnectionTypeText" class="cfld" disabled="disabled">Erweiterung/Veränderung<br>
+
+<input type="radio" name="havConnectionType" value="rem" id="havConnectionTypeText" class="cfld" disabled="disabled">Demontage
+</fieldset>
+</div>
+<div id="havSector" class="colright">
+<fieldset>
+<legend>Sparte</legend><input type="checkbox" name="havSector_HAV" id="havSector_HAV"  class="cfld" value="cur" >Strom<br><input type="checkbox" name="havSector_HAV" id="havSector_HAV"  class="cfld" value="gas" >Gas<br><input type="checkbox" name="havSector_HAV" id="havSector_HAV"  class="cfld" value="wat" >Wasser
+</fieldset>
+</div>
+</div>
+</fieldset>
+<BR>
+<div id="hide4arc">
+<fieldset style="border-color:#228B22">
+<legend>
+<input type="checkbox" name="formTypeWeb02"  class="cfld" value="act" onClick="onClick_formType(this)" >Inbetriebsetzung
+</legend>
+<div id="mzt_F00" style="padding-left:0px;color:silver">Zählereinbau / -änderung / -demontage)<p></p>
+<div id="mztType" class="colleft">
+<fieldset>
+<legend>Auftragsart</legend><input type="checkbox" name="actType01" id="actType01"  class="cfld" value="new"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Neuanschluss (Zählerneumontage)<br>
+<input type="checkbox" name="actType02" id="actType02"  class="cfld" value="ext"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Veränderung (Leistungsveränderung nach TAB)<br>
+<input type="checkbox" name="actType03" id="actType03"  class="cfld" value="neweeg"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Erzeugungsanlagen (Zählerneumontage)<br>
+<input type="checkbox" name="actType04" id="actType04"  class="cfld" value="extmet"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Austausch von Messeinrichtungen<br>
+<input type="checkbox" name="actType05" id="actType05"  class="cfld" value="rem"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Ausbau des Zählers (Stillegung des Zählpunktes)<br>
+<input type="checkbox" name="actType06" id="actType06"  class="cfld" value="part"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Anlagentrennung<br>
+<input type="checkbox" name="actType07" id="actType07"  class="cfld" value="join"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Zusammenlegung von Anlagen<br>
+<input type="checkbox" name="actType08" id="actType08"  class="cfld" value="renew"  onchange="onClick_subType(this)" onclick="onClick_subType(this)">Wiederinbetriebsetzung<br>
+<P>
+
+<input name="%%Surrogate_actType09" type="hidden" value="1">
+<input type="checkbox" name="actType09" value="kza" onchange="onClick_subType(this, &quot;cur&quot;); " onclick="onClick_subType(this, &quot;cur&quot;); " class="cfld">Kurzzeitanschlüsse (nur Sparte Strom)
+</P>
+
+<ul>
+<ul>	</fieldset>
+	</div>
+	<div id="mztSector" class="colright">
+	<fieldset>
+	<legend>Sparte</legend><input type="checkbox" name="havSector_ACT" id="havSector_ACT"  class="cfld" value="cur" >Strom<br><input type="checkbox" name="havSector_ACT" id="havSector_ACT"  class="cfld" value="gas" >Gas<br><input type="checkbox" name="havSector_ACT" id="havSector_ACT"  class="cfld" value="wat" >Wasser
+	</fieldset>
+	</div>
+        </div>
+</fieldset>
+<BR>
+<fieldset id="eeg_Fieldset">
+<legend>
+<input type="checkbox" name="formTypeWeb03"  class="cfld" value="eeg" onClick="onClick_formType(this)" >Erzeugungsanlagen (Anschlussprüfung)
+</legend>
+<div id="eeg_F00" style="padding-left:0px;color:silver">
+	<div id="eegType" class="colleft">
+        <fieldset>
+        <legend>Erzeugungsart</legend><input type="checkbox" name="eegType01" id="eegType01"  class="cfld" value="photo"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Photovoltaik<br>
+<input type="checkbox" name="eegType02" id="eegType02"  class="cfld" value="wind"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Windenergie<br>
+<input type="checkbox" name="eegType03" id="eegType03"  class="cfld" value="water"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Wasserkraft<br>
+<input type="checkbox" name="eegType04" id="eegType04"  class="cfld" value="block"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Kraft-Wärme-Kopplung (z.B. BHKW)<br>
+<input type="checkbox" name="eegType05" id="eegType05"  class="cfld" value="cell"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Brennstoffzelle<br>
+<input type="checkbox" name="eegType06" id="eegType06"  class="cfld" value="deponie"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Strom aus Deponiegas<br>
+<input type="checkbox" name="eegType07" id="eegType07"  class="cfld" value="clear"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Strom aus Klärgas<br>
+<input type="checkbox" name="eegType08" id="eegType08"  class="cfld" value="bio"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Strom aus Biomasse<br>
+<input type="checkbox" name="eegType09" id="eegType09"  class="cfld" value="geo"  onchange="onClick_subType(this, 'cur')" onclick="onClick_subType(this,'cur')">Strom aus Geothermie<br>
+<font color="#FF0000">		</font>	</fieldset>
+	</div>
+	<div id="eegSector" class="colright">
+	<fieldset>
+	<legend>Sparte</legend><input type="checkbox" name="havSector_EEG" id="havSector_EEG"  class="cfld" value="cur" >Strom
+	</fieldset>
+	</div>
+</div>
+</fieldset>
+<BR>
+<div id="testTextByAliasEEG" onclick="getTextForAliasEEG()">Hier clicken: Text für den ausgewählten EEG Alias holen</div>
+<BR>
+<code>
+JAVASCRIPT
+When you can't deselect a checkbox item on the Web...
+
+Cindy Decker
+10.27.2001
+Rating: -4.29- (out of 5)
+
+
+Digg This!    StumbleUpon Toolbar StumbleUpon    Bookmark with Delicious Del.icio.us   
+
+
+Issue:
+
+You cannot uncheck (deselect) a checked item in a Checkbox field when updating a Notes document via a Web browser. The checkbox item will remain checked the next time you open the document.
+
+The core problem is the way HTML form data is returned to the Domino server upon a submit. When you submit an HTML form, the name-value pairs of all the fields are assembled and sent to the Domino server. For Checkbox fields, the Web browser will only send the "checked" values. So if an item is not checked for a Checkbox field, no information for that checkbox item is sent to the Domino server. Therefore, Domino does not know to remove that item from the Notes field when the document is saved.
+
+Solution:
+
+Force the unchecked items in the Checkbox field to be sent to the server by setting the items as checked and the value to null at the time the document is submitted to the Domino server.
+
+Code Sample:
+
+Following is a sample of the code we use to force unchecked checkbox items to be passed to the Domino server when a document is submitted via a Web browser. This solution works for both single item and multiple item Checkbox fields. The only issue I can see is that, for a multiple item Checkbox field, a "Text List" type of field is always generated for the Notes field, with a null value for each unchecked item in the selection list. This is contrary to the Notes interface which generates a plain "Text" field with a null value if no items are checked for a multiple item Checkbox field or a "Text List" type of field with only the checked values listed.
+
+
+Code
+
+1. A "Save & Close" action is used on the form for the user to submit a new or updated document via a Web browser; we do not use the "onSubmit" form event. The "Save & Close" action has the following JavaScript code:
+
+if (validateFormFields()) 
+  { 
+  window.document.forms[0].submit(); 
+  } 
+
+2. The following code is in the "JS Header" event for the form:
+
+var thisform = window.document.forms[0];
+// Function to validate the fields on this form 
+function validateFormFields() 
+   { 
+   if (validateFieldRqrd(thisform.Subject, "text", "Action Item Title")); else return false; 
+   if (validateFieldRqrd(thisform.Status, "select", "Action Item Status")); else return false; 
+   ... 
+   .... all other field validations go here ... 
+   ...
+   // Force null values to be returned back the Domino server (from the Web) 
+   // for any unchecked items in the Checkbox fields 
+   forceUncheckedItems(thisform.CheckBoxFieldA); 
+   forceUncheckedItems(thisform.CheckBoxFieldB); 
+   forceUncheckedItems(thisform.CheckBoxFieldC);
+    return true; 
+   } 
+   // End of Function: validateFormFields function 
+
+forceUncheckedItems(objField) 
+   { 
+   // This function forces a null value back to the Domino server 
+   // for each unchecked selection item in a Checkbox field. 
+   // Notes: 
+   // -- This function can only be called at the point where the  
+   //     document will be submitted to the server; that is that all 
+   //     validations have passed and the last action is to submit it. 
+   //     It may cause data entry problems if the user is returned back 
+   //     to the form after this function has been run. 
+   // 
+   // -- This function must only be used when submitting  
+   //     documents from the Web.    
+
+var index;
+
+    // Test for a multiple item selection list 
+   if (objField[0]) 
+      { 
+      // Loop through multiple item selection list 
+      for (index = 0; index < objField.length; ++index) 
+         { 
+         if (objField[index].checked == false) 
+            { 
+            objField[index].checked = true; 
+            objField[index].value = ""; 
+            } 
+         } 
+      } 
+   else 
+      { 
+      // Single item selection list 
+      if (objField.checked == false) 
+         { 
+         objField.checked = true; 
+         objField.value = ""; 
+         } 
+      } 
+   } 
+   // End of Function: forceUncheckedItem
+</code>
+</form>
+
+
+
+</body>
+</html>

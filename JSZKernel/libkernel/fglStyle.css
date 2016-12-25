@@ -1,0 +1,66 @@
+/*Eigenen Klasse für einen Link, der per Javascript 
+   nach einer Aktion (z.B. Delete) hinsichtlich der Farbe umgesetzt wird und zum Blinken gebracht wird*/
+/*Merke:
+#000000; = schwarz
+*/
+
+/*Text, der in Masken zur Fehlermeldung ausgegeben wird*/
+div.ErrorTextOnZZZ{
+	font-family:arial;
+	font-size:9pt;
+	color:red;
+	font-weight:normal;
+	text-decoration:blink; 
+} /*ErrorTextOnZZZ-Klasse*/
+
+/*Merke: Deklaration als eine Klasse. Dies kann durch Javascript nicht umgesetzt werden*/
+div.LinkTextReloadZZZ{
+	font-family:arial;
+	font-size:9pt;
+	color:green;
+	font-weight:normal;
+	text-decoration:blink; 
+}/*LinkTextReloadZZZ - Klasse */
+
+a.LinkTextReloadZZZ{
+	font-family:arial;
+	font-size:9pt;
+	color:green;
+	font-weight:normal;
+	text-decoration:blink; 
+}/*LinkTextReloadZZZ - Klasse */
+
+
+/*Merke: Deklaration als eine Klasse. Der Klassenname kann auf ...ReloadZZZ umgesetzt werden. Dann soll es anfangen zu blinken*/
+div.LinkTextZZZ{
+	font-family:arial;
+	font-size:9pt;
+	color:#000000;
+	font-weight:normal;
+	text-decoration:none; 
+}/*LinkText - Klasse */
+
+
+
+
+
+/*################## nicht mehr benötigt ############################################*/
+/*der link wird nomralerweise blau, außer man definiert diese Klasse. 
+  Besonerheit: Hier blinkt der Text*/
+A#AReloadTextVIA	{ color: #000000; text-decoration: none; } 
+
+
+/*Merke: Deklaration als eine ID. Dies kann durch Javascript umgesetzt werden*/
+div#DivReloadTextVIA{
+	font-family:arial;
+	font-size:9pt;
+	color:black;
+	font-weight:bold;
+	/*text-decoration: blink;*/  /*damit dies deklariert und im onload-event auf 'Nicht blinken' gesetzt werden kann, muss es im HTML sebst dklariert sein. Dann kann dies wieder per JavaScript an anderer Stelle auf 'blink' gesetzt werden*/
+}
+
+
+
+
+
+

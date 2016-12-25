@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>UI fuer die ZApi.Basic.Datatype.Array.String.js (speziell DOM-Element-Gruppen)</title>
+<script language="javascript" type="text/javascript" src="../libkernel/_SewagJavascriptLibraryPage.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.Array.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ElementUI.js"></script>
+
+<!--  Zu testende Funktion ebenfalls ausgelagert, da manchmal auf eine Funktion in der Seite selbst nicht zugegriffen werden kann im Debugger -->
+<script language="javascript" type="text/javascript" src="../test/testArrayString4GroupZZZ.js"></script>
+<script language="JavaScript" type="text/javascript">
+<!-- Vor nicht Javascript fähigen Browsern verbergen 
+
+function getIndex4AliasMet(){
+	alert("TEST Started");
+	
+	
+	var iaIndex = getFieldIndiciesWithAnyValueByGroupname("metCurOutType");
+	
+	
+	var sIndexAll=""; //Todo: Aus dem iaIndex einen String machen
+	alert("getFieldIndiciesWithAnyValueByGroupname... = " + sIndexAll);
+	
+	
+		 
+	alert("Test Ended");
+}
+//Ende des Verbergens vor nicht javascript fähigen Browsern --></script>
+
+
+
+</head>
+<body>
+<form>
+<h1><b>Zählerplatzflächen nach TAB2007 A 3.1 (Drei-Punkt-Befestigung)</b></h1>
+<table border=0 cellpadding=1 cellspacing=0 width=100%> <colgroup><col width="4%"><col width="8%"><col width="35%"><col width="25%"></colgroup><!-- table --><!-- table Ausbau-->
+<tr>
+<th>&nbsp;</th><th colspan=3><b>Ausbau und/oder Einbau (bzw. Wechsel des Zählers)</b></th>
+</tr>
+<tr>
+<th>&nbsp;</th><th>&nbsp;</th><th align="left">Zählerart (Ausbau) / Zählerart (Einbau)</th><th align="left">Zählernummer / Schaltzeit</th>
+</tr>
+<tr style="" id="metCur01">
+<td rowspan=2>&nbsp;1. </td>
+<td class="bottomLine" align="left">&nbsp;Ausbau</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurOutType01" type="hidden" value="1" />
+<select name="metCurOutType01" class="tfld">
+<option value="00">- Kein Zähler -</option>
+
+<option value="1T_AC">Wechselstromzähler</option>
+
+<option value="1T_AC_RLS-">Wechselstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_AC_RLS">Wechselstromzähler mit Rücklaufsperre</option>
+
+<option value="1T_RC">Drehstromzähler</option>
+
+<option value="1T_RC_RLS-">Drehstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_RC_RLS">Drehstromzähler mit Rücklaufsperre</option>
+
+<option value="2T_MET">Doppeltarifzähler</option>
+
+<option value="3T_MET">Doppeltarifzähler-100-A-</option>
+
+<option value="1G_100A">Lastgangzähler-100-A</option>
+
+<option value="1T_SP">Sonder-/Wandlerzähler</option>
+
+<option value="1T_BL">Bezugs- und Lieferungszähler</option>
+
+<option value="TR_ROU">Rundsteuereinrichtung</option>
+
+<option value="TR_CLK">Schaltuhr</option>
+</select>
+</td>
+<td>
+<input name="metCurOutNumber01" value="" class="tfld" maxlength="18" /></td>
+</tr>
+<tr style="" id="metCurIn01">
+<td class="bottomLine"  align="left">&nbsp;Einbau</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurInType01" type="hidden" value="1" />
+<select name="metCurInType01" class="tfld">
+<option value="00">- Kein Zähler -</option>
+
+<option value="1T_AC">Wechselstromzähler</option>
+
+<option value="1T_AC_RLS-">Wechselstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_AC_RLS">Wechselstromzähler mit Rücklaufsperre</option>
+
+<option value="1T_RC">Drehstromzähler</option>
+
+<option value="1T_RC_RLS-">Drehstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_RC_RLS">Drehstromzähler mit Rücklaufsperre</option>
+
+<option value="2T_MET">Doppeltarifzähler</option>
+
+<option value="3T_MET">Doppeltarifzähler-100-A-</option>
+
+<option value="1G_100A">Lastgangzähler-100-A</option>
+
+<option value="1T_SP">Sonder-/Wandlerzähler</option>
+
+<option value="1T_BL">Bezugs- und Lieferungszähler</option>
+
+<option value="TR_ROU">Rundsteuereinrichtung</option>
+
+<option value="TR_CLK">Schaltuhr</option>
+</select>
+</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurInTime01" type="hidden" value="1" />
+<select name="metCurInTime01" class="tfld">
+<option selected="selected"></option>
+
+<option value="8+0">8+0</option>
+
+<option value="8+2">8+2</option>
+
+<option value="8+3">8+3</option>
+
+<option value="6h Schwachlast">6h Schwachlast</option>
+</select>
+</td>
+</tr>
+<tr style="" id="metCurHR02">
+<td colspan=4><HR></td>
+</tr>
+<tr style="" id="metCur02">
+<td rowspan=2>&nbsp;2.</td>
+<td class="bottomLine"  align="left">&nbsp;Ausbau</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurOutType02" type="hidden" value="1" />
+<select name="metCurOutType02" class="tfld">
+<option value="00">- Kein Zähler -</option>
+
+<option value="1T_AC">Wechselstromzähler</option>
+
+<option value="1T_AC_RLS-">Wechselstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_AC_RLS">Wechselstromzähler mit Rücklaufsperre</option>
+
+<option value="1T_RC">Drehstromzähler</option>
+
+<option value="1T_RC_RLS-">Drehstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_RC_RLS">Drehstromzähler mit Rücklaufsperre</option>
+
+<option value="2T_MET">Doppeltarifzähler</option>
+
+<option value="3T_MET">Doppeltarifzähler-100-A-</option>
+
+<option value="1G_100A">Lastgangzähler-100-A</option>
+
+<option value="1T_SP">Sonder-/Wandlerzähler</option>
+
+<option value="1T_BL">Bezugs- und Lieferungszähler</option>
+
+<option value="TR_ROU">Rundsteuereinrichtung</option>
+
+<option value="TR_CLK">Schaltuhr</option>
+</select>
+</td>
+<td class="bottomLine">
+<input name="metCurOutNumber02" value="" class="tfld" maxlength="18" /></td>
+</tr>
+<tr style="" id="metCurIn02">
+<td class="bottomLine"  align="left">&nbsp;Einbau</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurInType02" type="hidden" value="1" />
+<select name="metCurInType02" class="tfld">
+<option value="00">- Kein Zähler -</option>
+
+<option value="1T_AC">Wechselstromzähler</option>
+
+<option value="1T_AC_RLS-">Wechselstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_AC_RLS">Wechselstromzähler mit Rücklaufsperre</option>
+
+<option value="1T_RC">Drehstromzähler</option>
+
+<option value="1T_RC_RLS-">Drehstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_RC_RLS">Drehstromzähler mit Rücklaufsperre</option>
+
+<option value="2T_MET">Doppeltarifzähler</option>
+
+<option value="3T_MET">Doppeltarifzähler-100-A-</option>
+
+<option value="1G_100A">Lastgangzähler-100-A</option>
+
+<option value="1T_SP">Sonder-/Wandlerzähler</option>
+
+<option value="1T_BL">Bezugs- und Lieferungszähler</option>
+
+<option value="TR_ROU">Rundsteuereinrichtung</option>
+
+<option value="TR_CLK">Schaltuhr</option>
+</select>
+</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurInTime02" type="hidden" value="1" />
+<select name="metCurInTime02" class="tfld">
+<option selected="selected"></option>
+
+<option value="8+0">8+0</option>
+
+<option value="8+2">8+2</option>
+
+<option value="8+3">8+3</option>
+
+<option value="6h Schwachlast">6h Schwachlast</option>
+</select>
+</td>
+</tr>
+<tr style="" id="metCurHR03">
+<td colspan=4><HR></td>
+</tr>
+<tr style="" id="metCur03">
+<td rowspan=2>&nbsp;3.</td>
+<td class="bottomLine"  align="left">&nbsp;Ausbau</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurOutType03" type="hidden" value="1" />
+<select name="metCurOutType03" class="tfld">
+<option value="00">- Kein Zähler -</option>
+
+<option value="1T_AC">Wechselstromzähler</option>
+
+<option value="1T_AC_RLS-">Wechselstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_AC_RLS">Wechselstromzähler mit Rücklaufsperre</option>
+
+<option value="1T_RC">Drehstromzähler</option>
+
+<option value="1T_RC_RLS-">Drehstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_RC_RLS">Drehstromzähler mit Rücklaufsperre</option>
+
+<option value="2T_MET">Doppeltarifzähler</option>
+
+<option value="3T_MET">Doppeltarifzähler-100-A-</option>
+
+<option value="1G_100A">Lastgangzähler-100-A</option>
+
+<option value="1T_SP">Sonder-/Wandlerzähler</option>
+
+<option value="1T_BL">Bezugs- und Lieferungszähler</option>
+
+<option value="TR_ROU">Rundsteuereinrichtung</option>
+
+<option value="TR_CLK">Schaltuhr</option>
+</select>
+</td>
+<td class="bottomLine">
+<input name="metCurOutNumber03" value="" class="tfld" maxlength="18" /></td>
+</tr>
+<tr style="" id="metCurIn03">
+<td class="bottomLine"  align="left">&nbsp;Einbau</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurInType03" type="hidden" value="1" />
+<select name="metCurInType03" class="tfld">
+<option value="00">- Kein Zähler -</option>
+
+<option value="1T_AC">Wechselstromzähler</option>
+
+<option value="1T_AC_RLS-">Wechselstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_AC_RLS">Wechselstromzähler mit Rücklaufsperre</option>
+
+<option value="1T_RC">Drehstromzähler</option>
+
+<option value="1T_RC_RLS-">Drehstromzähler ohne Rücklaufsperre</option>
+
+<option value="1T_RC_RLS">Drehstromzähler mit Rücklaufsperre</option>
+
+<option value="2T_MET">Doppeltarifzähler</option>
+
+<option value="3T_MET">Doppeltarifzähler-100-A-</option>
+
+<option value="1G_100A">Lastgangzähler-100-A</option>
+
+<option value="1T_SP">Sonder-/Wandlerzähler</option>
+
+<option value="1T_BL">Bezugs- und Lieferungszähler</option>
+
+<option value="TR_ROU">Rundsteuereinrichtung</option>
+
+<option value="TR_CLK">Schaltuhr</option>
+</select>
+</td>
+<td class="bottomLine">
+<input name="%%Surrogate_metCurInTime03" type="hidden" value="1" />
+<select name="metCurInTime03" class="tfld">
+<option selected="selected"></option>
+
+<option value="8+0">8+0</option>
+
+<option value="8+2">8+2</option>
+
+<option value="8+3">8+3</option>
+
+<option value="6h Schwachlast">6h Schwachlast</option>
+</select>
+</td>
+</tr>
+</table>
+<BR>
+Entwicklung: Indices für die ausgewählten Zähler holen<BR>
+<div id="testIndexByAliasMet" onclick="getIndex4AliasMet();">Hier clicken: Hat jeder Ausbauzähler auch eine Zählernummer?</div>
+<BR><BR>Entwicklung: Filter die ausgewählten Zähler noch vorher anhand eines Arrays von zu betrachtenden Werten<BR>
+<div id="testIndexByAliasMetFiltered" onclick="getIndex4AliasMetFiltered();">Hier clicken: Hat jeder Doppeltarif - Einbauzähler auch eine Schaltzeit?</div>
+</form>
+</body>
+</html>

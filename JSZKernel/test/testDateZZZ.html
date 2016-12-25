@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.Date.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.Array.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZBasic.DOM.Form.js"></script>
+
+<!--  Zu testende Funktion ebenfalls ausgelagert, da manchmal auf eine Funktion in der Seite selbst nicht zugegriffen werden kann im Debugger -->
+<script language="javascript" type="text/javascript" src="../test/testDateZZZ.js"></script>
+<script language="JavaScript" type="text/javascript">
+<!-- Vor nicht Javascript fähigen Browsern verbergen 
+
+function showDescription(){
+	alert("TEST ist ausgelagert in Javascript .js Datei, die den gleichen Namen hat wie diese .html Datei. Da manchma im Debugger nicht auf eine Funktion auf der gleichen Seite zugegriffen werden kann.");
+}
+//Ende des Verbergens vor nicht javascript fähigen Browsern --></script>
+
+
+</head>
+<body>
+<form action=""><!--  Ist wichtig fuer die Ermittlung der Feldwerte  -->
+<div id="desireDate" class="colleft"><!-- bei LGM kein Wunschtermin -->
+<fieldset>
+<legend>Datumsoperationen</legend>
+<div id="DivDate01">
+<table border=0 cellpadding=1 cellspacing=0 width=100%>
+<colgroup><col width="38%"><col width="62%"></colgroup><!-- table -->
+<tr>
+<td><label for="date01">Datum 1:</label></td>
+<td>
+<input name="date01" value="05.08.2010" onfocus="" id="date01" class="tfld-m" />
+</td>
+</tr>
+</table>
+</div>
+
+<div id="DivDate02">
+<table border=0 cellpadding=1 cellspacing=0 width=100%>
+<colgroup><col width="38%"><col width="62%"></colgroup><!-- table -->
+<tr>
+<td><label for="date02">Datum 2:</label></td>
+<td>
+
+<input name="date02" value="05.08.2010" onfocus="" id="date02" class="tfld-m" />
+</td>
+</tr>
+</table>
+</div>
+<div id="eegDate">
+<table border=0 cellpadding=1 cellspacing=0 width=100%>
+<colgroup><col width="38%"><col width="62%"></colgroup><!-- table -->
+<tr>
+<td><label for="eegDateDesired">Todo: Datumspicker einbinden, etc.</label></td>
+<td>
+
+<input name="eegDateDesired" value="05.08.2010" onfocus="Picker.close()" id="eegDateDesired" class="tfld-m" />
+<img src="/Projects/mark-e/develop/D_Portal.nsf/icon_calendar.gif?OpenImageResource" onClick="if(stpCur != 'F99') displayDatePicker('eegDateDesired' , false, 'dmy', '.');">
+</td>
+</tr>
+</table>
+</div>
+</fieldset>
+</div><!-- desireDate -->
+Bescreibung:<BR>
+<div id="testDescription" onclick="showDescription();">Hier clicken: Testbescrheibung.</div><BR>
+Entwicklung: Ist die Eingabe ein gültiges Datum?<BR>
+<div id="testIsDateValid" onclick="testIsDateValid();">Hier clicken: Ist das 'Datum 1' gültig?</div>
+<BR>
+Entwicklung: Ist die Eingabe im Feld 2 ein gültiges Datum UND zeitlich vor dem gültigen Datum in Feld 1?<BR>
+<div id="testIsDatePrevious" onclick="testIsDatePrevious();">Hier clicken: Ist das 'Datum 2' vor dem 'Datum 1' gültig?</div>
+</form>
+</body>
+</html>

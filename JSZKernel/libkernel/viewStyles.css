@@ -1,0 +1,13 @@
+A:link { " + SKFontFamilyInCSS + " color:#000000; font-weight:bold;text-decoration: none;}
+A:visited	{ color: #666666; text-decoration: none; } 
+A:active	{ color:#000000; text-decoration: none;} 
+A:hover  { color:#000000} 
+.menu {   font-family: "Arial";   color: #000000; margin-top: 1px;    margin-bottom: 1px;    margin-left:2px;    width: 100%   } 
+.menuOn {    background-color: #FFCC00;    margin-top: 1px;    margin-bottom: 1px;    margin-left:2px;    margin-right: 2px;    width: 100%   } 
+BODY {  font-family: "Arial";  text-align: left; color:#000000; font-size: 9pt} 
+TH {  font-family: "Arial";   font-weight: bold; color: #000000;} 
+TD { font-family: "Arial";  } 
+DIV.contextMenu {  position: absolute;  visibility: hidden;  font-size:9pt; 	margin-left: 2px; width: 150px; background-color:#FFCC00; border: 2px outset #000000; }
+.noprint{ display:none; }
+.popupMenu{position:absolute; visibility:hidden; font-size:9pt; margin-left: 2px; width: 150px; background-color:#FFCC00; border: 2px outset #000000;}
+.popupLink{cursor:pointer;}

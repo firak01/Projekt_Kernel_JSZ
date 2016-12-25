@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>UI für die ZApi.Basic.Datatype.String.js</title>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ZApi.Basic.Datatype.String.js"></script>
+<script language="javascript" type="text/javascript" src="../libkernel/ElementUI.js"></script>
+</head>
+<body>
+
+
+<form>
+FGL 2010-02-01:
+Es werden alle anderen Checkboxen geleert, wenn eine andere Checkbox markiert wird.
+Merke:
+Beim Firefox reicht der Code im onChange-Event aus. Beim IE muss der Code noch im onClick-Event eingebunden werden.
+<BR><BR>
+
+<fieldset class="tfld-statement-legend" >
+			<legend  class="tfld-statement-header">Messeinrichtungen nach § 21b Abs. 3a und 3b EnWG</legend>
+			<table border=0 cellpadding=1 cellspacing=0 width=100%>
+<tr>
+<td>Neuanlagen erhalten ab dem 01.01.2010 eine Messeinrichtung nach § 21b Abs. 3a EnWG</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="curPowerMeter4New01" value="01" class="cfld" onchange="changeOtherCheckBoxValuesByGroup(this, false);">Renovierung im Sinne der Richtlinie 2002/91/EG</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="curPowerMeter4New02" value="02" class="cfld" onchange="changeOtherCheckBoxValuesByGroup(this, false);">der Anschlussnutzer wünscht eine Messeinrichtung auf Grundlage $21b Abs. 3b EnWG</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>
+<input type="checkbox" name="curPowerMeter4New03" value="03" class="cfld" onchange="changeOtherCheckBoxValuesByGroup(this, false);">TEST 3. Checkbox</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+</table>
+</fieldset>
+
+</form>
+
+</body>
+</html>
